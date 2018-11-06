@@ -216,6 +216,7 @@ Makefile: ../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro G:/Tools/qt/5.11.
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/qt_config.prf \
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/win32-g++/qmake.conf \
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/exclusive_builds.prf \
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/toolchain.prf \
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/default_pre.prf \
@@ -240,6 +241,7 @@ Makefile: ../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro G:/Tools/qt/5.11.
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/lex.prf \
 		../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/qtmain.prl \
+		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Charts.prl \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Widgets.prl \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Gui.prl \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5SerialPort.prl \
@@ -400,6 +402,7 @@ G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/qt_functions.prf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/qt_config.prf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/win32-g++/qmake.conf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/spec_post.prf:
+.qmake.stash:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/exclusive_builds.prf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/toolchain.prf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/default_pre.prf:
@@ -424,6 +427,7 @@ G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/yacc.prf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/lex.prf:
 ../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro:
 G:/Tools/qt/5.11.1/mingw53_32/lib/qtmain.prl:
+G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Charts.prl:
 G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Widgets.prl:
 G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Gui.prl:
 G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5SerialPort.prl:

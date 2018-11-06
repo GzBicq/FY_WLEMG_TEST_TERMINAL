@@ -241,6 +241,7 @@ Makefile: ../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro G:/Tools/qt/5.11.
 		G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/lex.prf \
 		../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/qtmaind.prl \
+		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Charts.prl \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Widgets.prl \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Gui.prl \
 		G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5SerialPort.prl \
@@ -426,6 +427,7 @@ G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/yacc.prf:
 G:/Tools/qt/5.11.1/mingw53_32/mkspecs/features/lex.prf:
 ../FY_WLEMG_TEST_TERMINAL/FY_WLEMG_TEST_TERMINAL.pro:
 G:/Tools/qt/5.11.1/mingw53_32/lib/qtmaind.prl:
+G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Charts.prl:
 G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Widgets.prl:
 G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5Gui.prl:
 G:/Tools/qt/5.11.1/mingw53_32/lib/Qt5SerialPort.prl:

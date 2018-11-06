@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <stdint.h>
 #include <QSerialPort>
-#include "mainwindow.h"
+
 
 namespace Ui {
 class FY_WLEMG_TEST_TERMINAL;
@@ -19,13 +19,14 @@ public:
     ~FY_WLEMG_TEST_TERMINAL();
     void fillPortsInfo();
     uint16_t  crc_check(uint8_t* data, uint32_t length);
+    void test(void);
     QByteArray data;
     QByteArray data_save;
     int pkt_num = 0;
     int pkt_byte_num = 0;
     int data_byte_num = 0;
     unsigned short emg_raw[50];
-    MainWindow  mainwindow;
+
 private slots:
     void openSerialPort();
     void closeSerialPort();

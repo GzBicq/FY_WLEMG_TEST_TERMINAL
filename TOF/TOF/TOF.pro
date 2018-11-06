@@ -1,16 +1,15 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-10-22T16:40:53
+# Project created by QtCreator 2018-10-27T10:14:32
 #
 #-------------------------------------------------
 
 QT       += core gui
 QT += widgets serialport
-QT += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = FY_WLEMG_TEST_TERMINAL
+TARGET = TOF
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -27,14 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        fy_wlemg_test_terminal.cpp \
-    mainwindow.cpp \
-    datasource.cpp
+    fy_wlemg_test_terminal.cpp
 
 HEADERS += \
-        fy_wlemg_test_terminal.h \
-    mainwindow.h \
-    datasource.h
+    fy_wlemg_test_terminal.h
 
 FORMS += \
-        fy_wlemg_test_terminal.ui
+        mainwindow.ui

@@ -1,5 +1,5 @@
 #include "fy_wlemg_test_terminal.h"
-#include "ui_fy_wlemg_test_terminal.h"
+#include "ui_mainwindow.h"
 #include <QSerialPortInfo>
 #include <stdio.h>
 
@@ -52,9 +52,9 @@ void FY_WLEMG_TEST_TERMINAL::fillPortsInfo()
 void FY_WLEMG_TEST_TERMINAL::openSerialPort()
 {
     m_serial->setPortName(ui->CB->currentText());
-    m_serial->setBaudRate(qint32(460800));
+    m_serial->setBaudRate(qint32(256000));
     m_serial->setDataBits(QSerialPort::Data8);
-    m_serial->setParity(QSerialPort::EvenParity);
+    m_serial->setParity(QSerialPort::NoParity);
     m_serial->setStopBits(QSerialPort::OneStop);
     m_serial->setFlowControl(QSerialPort::NoFlowControl);
     m_serial->setReadBufferSize(1);
@@ -133,83 +133,27 @@ void FY_WLEMG_TEST_TERMINAL::readData()
     QByteArray receive_data;
     int ret = 0;
     data += m_serial->readAll();
-    data_byte_num++;
-    ret = data.data()[data.length() - 1] == 0x04 && data.data()[data.length() - 2] == 0x03;
-    unsigned short crc = 0;
+
+    ret = data.data()[data.length() - 1] == 0x06 && data.data()[data.length() - 2] == 0x0A;
 
     if(ret)
     {
-        memcpy(&crc, data.data()+106, 2);
-        unsigned short crc_target = crc_check((uint8_t *)data.data() + 5, 101);
-        if(crc == crc_target)
+        int distance_l = (data.data()[0])&0x000000ff;
+        int distance_h = (data.data()[1])&0x000000ff;
+//        int distance = ((data).data()[0] | data.data()[1]<<8)&0x0000ffff;
+        int distance = (distance_l | distance_h<<8)&0x0000ffff;
+        if(distance > 20000)
         {
-            pkt_num++;
-            pkt_byte_num += data.length();
 
-            memcpy(emg_raw, data.data()+OFFSET(0), 100);
-            //file write
-            FILE *fp;
-            switch (data.data()[4])
-            {
-                case 1:
-                if( (fp = fopen("./test1.txt", "at+")) == NULL )
-                {
-                    printf("Cannot open file, press any key to exit!\n");
-                }
-                break;
-
-                case 2:
-                if( (fp = fopen("./test2.txt", "at+")) == NULL )
-                {
-                    printf("Cannot open file, press any key to exit!\n");
-                }
-                break;
-
-                default:
-                break;
-            }
-
-            for(int i = 0; i < 50; i++)
-            {
-                char temp_char[5] = "";
-                sprintf(temp_char, "%d\n",emg_raw[i]);
-                receive_data.append(temp_char);
-                if(emg_raw[i] > 4096)
-                {
-                      ui->TB->insertPlainText("data error!\n");
-                }
-            }
-
-            if(fp != NULL)
-            {
-                fwrite (receive_data.data(), receive_data.length(), 1, fp);
-                mainwindow.dataSource.update_mdata(emg_raw);
-                fclose(fp);
-            }
-
-
-            ui->LE_PKT_BYTE_SUM->setText(str.setNum(pkt_byte_num));
-            ui->LE_PKT_COUNTER->setText(str.setNum(pkt_num));
         }
-        else
-        {
-            FILE *fp;
-            if( (fp = fopen("./err_log.txt", "at+")) == NULL )
-            {
-                printf("Cannot open file, press any key to exit!\n");
-            }
-            fwrite ("error crc\n", 10, 1, fp);
-            fclose(fp);
-        }
+        ui->LE_PKT_BYTE_SUM->setText(str.setNum(distance));
         data.clear();
     }
-    ui->LE_PKT_DATA->setText(str.setNum(data_byte_num));
 }
 
 void FY_WLEMG_TEST_TERMINAL::on_PB_OPEN_SERIAL_clicked()
 {
     openSerialPort();
-    mainwindow.test();
 }
 
 void FY_WLEMG_TEST_TERMINAL::on_PB_CLOSE_SERIAL_clicked()
