@@ -69,12 +69,12 @@ int MainWindow::test(void)
     chart->addAxis(axisX, Qt::AlignBottom);
     chart->addAxis(axisY, Qt::AlignLeft);
 
-    const int seriesCount = 1;
+    const int seriesCount = 4;
 #ifdef DONT_USE_GL_SERIES
     const int pointCount = 100;
     chart->setTitle("Unaccelerated Series");
 #else
-    const int pointCount = 10000;
+    const int pointCount = dataSource.point_sum;
     chart->setTitle("OpenGL Accelerated Series");
 #endif
 
@@ -82,20 +82,26 @@ int MainWindow::test(void)
     for (int i = 0; i < seriesCount; i++) {
         QXYSeries *series = 0;
         int colorIndex = i % colors.size();
-        if (i % 2) {
-            series = new QScatterSeries;
-            QScatterSeries *scatter = static_cast<QScatterSeries *>(series);
-            scatter->setColor(QColor(colors.at(colorIndex)));
-            scatter->setMarkerSize(qreal(colorIndex + 2) / 2.0);
-            // Scatter pen doesn't have affect in OpenGL drawing, but if you disable OpenGL drawing
-            // this makes the marker border visible and gives comparable marker size to OpenGL
-            // scatter points.
-            scatter->setPen(QPen("black"));
-        } else {
-            series = new QLineSeries;
-            series->setPen(QPen(QBrush(QColor(colors.at(colorIndex))),
-                                qreal(colorIndex + 2) / 2.0));
-        }
+//        if (i % 2)
+//        {
+//            series = new QScatterSeries;
+//            QScatterSeries *scatter = static_cast<QScatterSeries *>(series);
+//            scatter->setColor(QColor(colors.at(colorIndex)));
+//            scatter->setMarkerSize(qreal(colorIndex + 2) / 2.0);
+//            // Scatter pen doesn't have affect in OpenGL drawing, but if you disable OpenGL drawing
+//            // this makes the marker border visible and gives comparable marker size to OpenGL
+//            // scatter points.
+//            scatter->setPen(QPen("black"));
+//        }
+//        else
+//        {
+//            series = new QLineSeries;
+//            series->setPen(QPen(QBrush(QColor(colors.at(colorIndex))),
+//                                qreal(colorIndex + 2) / 2.0));
+//        }
+        series = new QLineSeries;
+        series->setPen(QPen(QBrush(QColor(colors.at(i))),
+                            qreal(i + 2) / 2.0));
         seriesList.append(series);
 #ifdef DONT_USE_GL_SERIES
         series->setUseOpenGL(false);
@@ -149,7 +155,7 @@ int MainWindow::test(void)
 
     chartView->resize(600,400);
     chartView->show();
-    dataSource.generateData(1, 1, pointCount);
+    dataSource.generateData(4, 1, pointCount);
     QLabel *fpsLabel = new QLabel(chartView);
     QLabel *countLabel = new QLabel(chartView);
     QString countText = QStringLiteral("Total point count: %1");

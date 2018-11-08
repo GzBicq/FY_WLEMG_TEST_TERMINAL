@@ -141,52 +141,69 @@ void FY_WLEMG_TEST_TERMINAL::readData()
     {
         memcpy(&crc, data.data()+106, 2);
         unsigned short crc_target = crc_check((uint8_t *)data.data() + 5, 101);
+        int conn_handle = data.data()[4] - 1;
         if(crc == crc_target)
         {
             pkt_num++;
             pkt_byte_num += data.length();
 
             memcpy(emg_raw, data.data()+OFFSET(0), 100);
-            //file write
-            FILE *fp;
-            switch (data.data()[4])
-            {
-                case 1:
-                if( (fp = fopen("./test1.txt", "at+")) == NULL )
-                {
-                    printf("Cannot open file, press any key to exit!\n");
-                }
-                break;
+//            //file write
+//            {
+//                FILE *fp;
+//                switch (data.data()[4])
+//                {
+//                    case 1:
+//                    if( (fp = fopen("./test1.txt", "at+")) == NULL )
+//                    {
+//                        printf("Cannot open file, press any key to exit!\n");
+//                    }
+//                    break;
 
-                case 2:
-                if( (fp = fopen("./test2.txt", "at+")) == NULL )
-                {
-                    printf("Cannot open file, press any key to exit!\n");
-                }
-                break;
+//                    case 2:
+//                    if( (fp = fopen("./test2.txt", "at+")) == NULL )
+//                    {
+//                        printf("Cannot open file, press any key to exit!\n");
+//                    }
+//                    break;
 
-                default:
-                break;
-            }
+//                    case 3:
+//                    if( (fp = fopen("./test2.txt", "at+")) == NULL )
+//                    {
+//                        printf("Cannot open file, press any key to exit!\n");
+//                    }
+//                    break;
 
-            for(int i = 0; i < 50; i++)
-            {
-                char temp_char[5] = "";
-                sprintf(temp_char, "%d\n",emg_raw[i]);
-                receive_data.append(temp_char);
-                if(emg_raw[i] > 4096)
-                {
-                      ui->TB->insertPlainText("data error!\n");
-                }
-            }
+//                    case 4:
+//                    if( (fp = fopen("./test2.txt", "at+")) == NULL )
+//                    {
+//                        printf("Cannot open file, press any key to exit!\n");
+//                    }
+//                    break;
 
-            if(fp != NULL)
-            {
-                fwrite (receive_data.data(), receive_data.length(), 1, fp);
-                mainwindow.dataSource.update_mdata(emg_raw);
-                fclose(fp);
-            }
+//                    default:
+//                    break;
+//                }
 
+//                for(int i = 0; i < 50; i++)
+//                {
+//                    char temp_char[5] = "";
+//                    sprintf(temp_char, "%d\n",emg_raw[i]);
+//                    receive_data.append(temp_char);
+//                    if(emg_raw[i] > 4096)
+//                    {
+//                          ui->TB->insertPlainText("data error!\n");
+//                    }
+//                }
+
+//                if(fp != NULL)
+//                {
+//                    fwrite (receive_data.data(), receive_data.length(), 1, fp);
+
+//                    fclose(fp);
+//                }
+//            }
+            mainwindow.dataSource.update_mdata(emg_raw, conn_handle);
 
             ui->LE_PKT_BYTE_SUM->setText(str.setNum(pkt_byte_num));
             ui->LE_PKT_COUNTER->setText(str.setNum(pkt_num));

@@ -25,6 +25,7 @@ public:
     int pkt_byte_num = 0;
     int data_byte_num = 0;
     unsigned short emg_raw[50];
+
     MainWindow  mainwindow;
 private slots:
     void openSerialPort();

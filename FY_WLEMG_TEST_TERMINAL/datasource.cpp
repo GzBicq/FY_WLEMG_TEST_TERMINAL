@@ -42,7 +42,8 @@ DataSource::DataSource(QObject *parent) :
 
 void DataSource::update(QAbstractSeries *series, int seriesIndex)
 {
-    if (series) {
+    if (series)
+    {
         QXYSeries *xySeries = static_cast<QXYSeries *>(series);
         const QVector<QVector<QPointF> > &seriesData = m_data.at(seriesIndex);
         if (seriesIndex == 0)
@@ -64,18 +65,48 @@ void DataSource::handleSceneChanged()
 void DataSource::updateAllSeries()
 {
     static int frameCount = 0;
+
     static QString labelText = QStringLiteral("FPS: %1");
     for (int i = 0; i < m_seriesList.size(); i++)
         update(m_seriesList[i], i);
 
-    frameCount++;
+    //frameCount++;
     int elapsed = m_fpsTimer.elapsed();
     if (elapsed >= 1000) {
+
         elapsed = m_fpsTimer.restart();
-        qreal fps = qreal(0.1 * int(10000.0 * (qreal(frameCount) / qreal(elapsed))));
+        //qreal fps = qreal(0.1 * int(10000.0 * (qreal(frameCount) / qreal(elapsed))));
+        qreal fps = qreal(0.1 * int(point_sum * (qreal(data_count*50) / qreal(elapsed))));
+
         m_fpsLabel->setText(labelText.arg(QString::number(fps, 'f', 1)));
         m_fpsLabel->adjustSize();
-        frameCount = 0;
+        //frameCount = 0;
+        data_count = 0;
+
+        ++sec;
+        if(sec == 60)
+        {
+            minite++;
+
+            char sprintf_buf[50] = "";
+            int len = 0;
+            len = sprintf(sprintf_buf,"minite:%d %d,count:%d\n", minite, sec, (test_count*50)/60);
+
+//            FILE *fp;
+//            if( (fp = fopen("./data_per_min.txt", "at+")) == NULL )
+//            {
+//               printf("Cannot open file, press any key to exit!\n");
+//            }
+//            if(fp != NULL)
+//            {
+//               fwrite (sprintf_buf, len, 1, fp);
+
+//               fclose(fp);
+//            }
+
+            test_count = 0;
+            sec = 0;
+        }
     }
 }
 
@@ -107,7 +138,7 @@ void DataSource::generateData(int seriesCount, int rowCount, int colCount)
             QVector<QPointF> points;
             points.reserve(colCount);
             //j:0-10000
-            for (int j(0); j < 10000; j++) {
+            for (int j(0); j < point_sum; j++) {
                 qreal x(0);
                 qreal y(0);
                 // data with sin + random component
@@ -123,14 +154,16 @@ void DataSource::generateData(int seriesCount, int rowCount, int colCount)
     }
 }
 
-void DataSource::update_mdata(unsigned short *mdata)
+void DataSource::update_mdata(unsigned short *mdata, int conn_handle)
 {
-
+    data_count++;
+    test_count++;
     //50个为单位向前移动
-    for(int i = 9999; i >= 50; i--)
+
+    for(int i = point_sum - 1; i >= 50; i--)
     {
-        m_data[0][0][i].setY(m_data[0][0][i - 50].y());
-        m_data[0][0][i].setX(20.0 * (qreal(i) / qreal(10000)));
+        m_data[conn_handle][0][i].setY(m_data[conn_handle][0][i - 50].y());
+        m_data[conn_handle][0][i].setX(20.0 * (qreal(i) / qreal(point_sum)));
     }
 
 
@@ -139,8 +172,8 @@ void DataSource::update_mdata(unsigned short *mdata)
         qreal x(0);
         qreal y = mdata[i] * 1.0;
         // 0.000001 added to make values logaxis compatible
-        x = 0.000001 + 20.0 * (qreal(i) / qreal(10000)) ;
-        m_data[0][0][i].setX(x);
-        m_data[0][0][i].setY(y);
+        x = 0.000001 + 20.0 * (qreal(i) / qreal(point_sum));
+        m_data[conn_handle][0][i].setX(x);
+        m_data[conn_handle][0][i].setY(y);
     }
 }

@@ -45,9 +45,14 @@ public:
     explicit DataSource(QObject *parent = 0);
 
     void startUpdates(const QList<QXYSeries *> &seriesList, QLabel *fpsLabel);
-    void update_mdata(unsigned short *m_data);
+    void update_mdata(unsigned short *m_data, int conn_handle);
     int m_index_count = 0;
-    int interval = 10;
+    int interval = 25;
+    int data_count = 0;
+    int minite = 0;
+    int sec = 0;
+    int test_count = 0;
+    int point_sum = 2000;
 public slots:
     void generateData(int seriesCount, int rowCount, int colCount);
     void update(QAbstractSeries *series, int seriesIndex);
